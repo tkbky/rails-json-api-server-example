@@ -20,4 +20,8 @@ class Api::V1::BaseController < ApplicationController
     end
   end
 
+  def jsonapi_params(*args)
+    params.require(:data).permit(:type, attributes: args)[:attributes] || {}
+  end
+
 end
