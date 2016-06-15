@@ -13,10 +13,10 @@ class Api::V1::BaseController < ApplicationController
 
     user = User.find_by(email: options&.dig(:email))
 
-    if user && ActiveSupport::SecurityUtils.secure_compare(user.auth_token, auth_token)
+    if user && user.auth_token && ActiveSupport::SecurityUtils.secure_compare(user.auth_token, auth_token)
       @current_user = user
     else
-      render nothing: true, status: 401
+      render head: :ok, status: 401
     end
   end
 
